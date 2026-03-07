@@ -32,7 +32,7 @@ export default function BrandDashboard() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
                 {STATS.map((s, i) => (
                     <div key={i} className={`stat-card anim-fade-up anim-delay-${i + 1}`}>
                         <div className="icon-box mb-3" style={{ background: `${s.color}12` }}>
@@ -44,9 +44,9 @@ export default function BrandDashboard() {
                 ))}
             </div>
 
-            <div className="grid lg:grid-cols-5 gap-4">
+            <div className="grid lg:grid-cols-5 gap-5">
                 {/* Campaigns */}
-                <div className="lg:col-span-3 card p-5">
+                <div className="lg:col-span-3 card p-6">
                     <div className="flex items-center justify-between mb-4">
                         <h2 className="section-heading">Your Campaigns</h2>
                         <button className="btn btn-primary btn-sm"><Plus size={14} /> New Campaign</button>
@@ -76,7 +76,7 @@ export default function BrandDashboard() {
                 </div>
 
                 {/* Actions */}
-                <div className="lg:col-span-2 card p-5">
+                <div className="lg:col-span-2 card p-6">
                     <h2 className="section-heading mb-4">Quick Actions</h2>
                     <div className="flex flex-col gap-2">
                         <Link to="/brand/profile" className="flex items-center gap-3 p-3 rounded-lg no-underline"

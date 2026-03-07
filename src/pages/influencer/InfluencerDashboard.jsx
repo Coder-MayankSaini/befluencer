@@ -27,7 +27,7 @@ export default function InfluencerDashboard() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
                 {STATS.map((s, i) => (
                     <div key={i} className={`stat-card anim-fade-up anim-delay-${i + 1}`}>
                         <div className="icon-box mb-3" style={{ background: `${s.color}12` }}>
@@ -39,9 +39,9 @@ export default function InfluencerDashboard() {
                 ))}
             </div>
 
-            <div className="grid lg:grid-cols-5 gap-4">
+            <div className="grid lg:grid-cols-5 gap-5">
                 {/* Activity */}
-                <div className="lg:col-span-3 card p-5">
+                <div className="lg:col-span-3 card p-6">
                     <h2 className="section-heading mb-4">Recent Activity</h2>
                     <div className="flex flex-col gap-1">
                         {ACTIVITY.map((a) => (
@@ -61,7 +61,7 @@ export default function InfluencerDashboard() {
                 </div>
 
                 {/* Actions */}
-                <div className="lg:col-span-2 card p-5">
+                <div className="lg:col-span-2 card p-6">
                     <h2 className="section-heading mb-4">Quick Actions</h2>
                     <div className="flex flex-col gap-2">
                         {[
