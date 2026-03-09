@@ -4,7 +4,10 @@ import dotenv from 'dotenv';
 import process from 'process';
 import cors from 'cors'; // Importing CORS middleware
 
+
+
 import UserRoute from './routers/UserRoutes.js';// Importing user routes
+import PostRoutes from './routers/PostRoutes.js'; // Importing post routes
 
 dotenv.config();
 
@@ -17,10 +20,12 @@ app.use(cors()); // Enable CORS for all routes
 const PORT = process.env.PORT || 2001;
 
 app.use("/user",UserRoute);
+app.use("/influencer", PostRoutes);
 
 app.listen(PORT, function() {
     console.log(`server started at port ${PORT}`);
 })
+
 
 mongoose.connect(process.env.MONGO_URI, {
   serverSelectionTimeoutMS: 30000, // Optional: adjust if you have slow internet
