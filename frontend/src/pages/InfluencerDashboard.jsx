@@ -98,23 +98,72 @@ const InfluencerDashboard = () => {
                         <h2 className="text-xl font-bold text-gray-900 mb-2">Portfolio Upload</h2>
                         <p className="text-sm text-gray-500 mb-6">Upload your best brand deals or content examples.</p>
 
-                        <div className="mt-2 flex justify-center rounded-xl border-2 border-dashed border-gray-300 px-6 py-12 hover:bg-gray-50 hover:border-brand transition cursor-pointer group">
-                            <div className="text-center">
-                                <UploadCloud className="mx-auto h-12 w-12 text-gray-300 group-hover:text-brand transition" aria-hidden="true" />
-                                <div className="mt-4 flex text-sm leading-6 text-gray-600 justify-center">
-                                    <label htmlFor="file-upload" className="relative cursor-pointer rounded-md bg-transparent font-semibold text-black focus-within:outline-none focus-within:ring-2 focus-within:ring-black hover:text-gray-700 underline underline-offset-4">
-                                        <span>Upload a file</span>
-                                        <input id="file-upload" name="file-upload" type="file" className="sr-only" />
-                                    </label>
-                                    <p className="pl-1">or drag and drop</p>
+                        <div className="mt-4 flex items-center justify-between border border-gray-200 rounded-xl p-4 hover:border-brand transition">
+                            <div className="flex items-center gap-4">
+                                <div className="p-3 bg-gray-50 rounded-lg">
+                                    <UploadCloud className="h-6 w-6 text-gray-500" />
                                 </div>
-                                <p className="text-xs leading-5 text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                <div>
+                                    <h4 className="text-sm font-medium text-gray-900">Upload Content</h4>
+                                    <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                </div>
                             </div>
+                            <label htmlFor="portfolio-upload" className="cursor-pointer bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 hover:text-black transition shadow-sm">
+                                Choose File
+                                <input id="portfolio-upload" name="portfolio-upload" type="file" className="sr-only" />
+                            </label>
                         </div>
 
                         <div className="mt-6 flex justify-end">
                             <button className="bg-black text-white px-6 py-2 rounded-lg font-medium hover:bg-gray-800 transition shadow-sm">
                                 Save Portfolio
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Create a Post Section */}
+                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        <h2 className="text-xl font-bold text-gray-900 mb-2">Create a Post</h2>
+                        <p className="text-sm text-gray-500 mb-6">Share a new campaign, idea, or update with your followers and brands.</p>
+
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Post Title</label>
+                                <input type="text" placeholder="Enter an engaging title..." className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                <textarea
+                                    rows="4"
+                                    placeholder="What do you want to share?"
+                                    className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none resize-none transition"
+                                ></textarea>
+                            </div>
+
+                            {/* Image Upload for Post */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Post Image (Optional)</label>
+                                <div className="flex items-center justify-between border border-gray-200 rounded-xl p-4 hover:border-brand transition">
+                                    <div className="flex items-center gap-4">
+                                        <div className="p-3 bg-gray-50 rounded-lg">
+                                            <Camera className="h-6 w-6 text-gray-500" />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-sm font-medium text-gray-900">Upload Image</h4>
+                                            <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                        </div>
+                                    </div>
+                                    <label htmlFor="post-image-upload" className="cursor-pointer bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 hover:text-black transition shadow-sm">
+                                        Choose Image
+                                        <input id="post-image-upload" name="post-image-upload" type="file" className="sr-only" />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-6 flex justify-end">
+                            <button className="bg-black text-white px-6 py-2 rounded-lg font-medium hover:bg-gray-800 transition shadow-sm flex items-center gap-2">
+                                <Plus size={16} /> Publish Post
                             </button>
                         </div>
                     </div>

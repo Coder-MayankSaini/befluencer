@@ -9,10 +9,10 @@ const Home = () => {
             <section className="relative px-6 py-24 sm:py-32 lg:px-8 flex-1 flex flex-col justify-center">
                 <div className="mx-auto max-w-4xl text-center relative z-10">
 
-                    <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 sm:text-7xl mb-8 leading-tight">
+                    <h1 className="text-5xl font-mono tracking-tight text-gray-900 sm:text-7xl mb-8 leading-tight">
                         Connect Brands and Influencers Seamlessly.
                     </h1>
-                    <p className="mt-6 text-xl leading-8 text-gray-600 max-w-2xl mx-auto">
+                    <p className="mt-6 text-xl font-mono leading-8 text-gray-600 max-w-2xl mx-auto">
                         Discover, collaborate, and grow with BeFluencer. The all-in-one ecosystem for impactful influencer marketing.
                     </p>
                     <div className="mt-10 flex items-center justify-center gap-x-6">
