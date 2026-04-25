@@ -5,12 +5,20 @@ import { Menu, X } from 'lucide-react';
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
+    const userData = localStorage.getItem('loggedInUser');
+    const loggedInUser = userData ? JSON.parse(userData) : null;
 
     const navLinks = [
         { name: 'Home', path: '/' },
-        { name: 'Brand Dashboard', path: '/brand' },
-        { name: 'Influencer Dashboard', path: '/influencer' },
     ];
+
+    if (loggedInUser?.userType === 'brand') {
+        navLinks.push({ name: 'Dashboard', path: '/brand' });
+    }
+
+    if (loggedInUser?.userType === 'influencer') {
+        navLinks.push({ name: 'Dashboard', path: '/influencer' });
+    }
 
     const toggleMenu = () => setIsOpen(!isOpen);
 

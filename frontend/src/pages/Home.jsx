@@ -17,16 +17,16 @@ const Home = () => {
                     </p>
                     <div className="mt-10 flex items-center justify-center gap-x-6">
                         <Link
-                            to="/brand"
+                            to="/login"
                             className="rounded-full bg-black px-8 py-4 text-sm font-semibold text-white shadow-lg hover:bg-gray-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2"
                         >
-                            I'm a Brand <ArrowRight className="w-4 h-4" />
+                            Log in <ArrowRight className="w-4 h-4" />
                         </Link>
                         <Link
-                            to="/influencer"
+                            to="/signup"
                             className="rounded-full bg-white px-8 py-4 text-sm font-semibold text-black shadow-sm border border-gray-300 hover:bg-gray-50 hover:-translate-y-1 transition-all duration-300 flex items-center gap-2"
                         >
-                            I'm an Influencer <ArrowRight className="w-4 h-4" />
+                            Create Account <ArrowRight className="w-4 h-4" />
                         </Link>
                     </div>
                 </div>
