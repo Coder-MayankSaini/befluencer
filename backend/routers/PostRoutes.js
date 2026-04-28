@@ -12,6 +12,7 @@ const upload = multer({ storage });
 
 // Define the route for creating a post, expecting a single file field named 'image'
 router.post("/create-post", upload.single("image"), controller.createPost);
+router.post("/fetch-post",  controller.fetchPosts);
 
 
 export default router;
