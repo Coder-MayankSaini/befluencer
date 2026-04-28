@@ -1,5 +1,6 @@
 
 import userModel from "../models/userModel.js";
+import profileModel from "../models/InfluencerProfile.js";
 import axios from "axios";
 
 
@@ -34,4 +35,21 @@ function checkUser(req,res){
     });
 }
 
-export default {saveUser,checkUser}
+async function saveProfile(req, res) {
+  
+    //console.log("console"+JSON.stringify(req.body));
+    // res.send(JSON.stringify(req.body));
+    
+    try {
+      //  console.log(req.body);
+      const newUser = new profileModel(req.body);
+      await newUser.save();
+      res.json({ status: 202, msg: "User saved successfully!" });
+    } catch (err) {
+      console.error(err);
+      res.json({ status: 503, msg: "Failed to save user." });
+    }
+}
+
+
+export default {saveUser,checkUser,saveProfile}

@@ -1,0 +1,13 @@
+import mongoose from "mongoose";
+
+const profileSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  niche: { type: String, required: true },
+  location: { type: String, unique: true, required: true },
+  rate: { type: String, required: true },
+  bio: { type: String, required: true },
+  image: { type: String, required: false }
+});
+
+// Export the model as the default ESM export
+export default mongoose.model("ProfileCollection", profileSchema);

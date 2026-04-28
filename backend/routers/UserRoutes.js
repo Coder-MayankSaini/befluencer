@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.post("/saveUser", controller.saveUser);
 router.post("/checkUser",controller.checkUser);
+router.post("/saveProfile",controller.saveProfile);
 
 export default router;
