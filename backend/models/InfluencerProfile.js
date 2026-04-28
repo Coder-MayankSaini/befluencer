@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const profileSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   niche: { type: String, required: true },
   location: { type: String, required: true },
@@ -8,6 +9,5 @@ const profileSchema = new mongoose.Schema({
   bio: { type: String, required: true },
   image: { type: String, required: false }
 });
-
 
 export default mongoose.model("ProfileCollection", profileSchema);

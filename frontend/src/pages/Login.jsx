@@ -56,12 +56,12 @@ const Login = () => {
 
                         <form className="space-y-6" onSubmit={checkUser}>
                             {msg && (
-                                <p className="rounded-xl border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+                                <p className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
                                     {msg}
                                 </p>
                             )}
                             {errMsg && (
-                                <p className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                                <p className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
                                     {errMsg}
                                 </p>
                             )}
