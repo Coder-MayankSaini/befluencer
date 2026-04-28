@@ -9,5 +9,5 @@ const profileSchema = new mongoose.Schema({
   image: { type: String, required: false }
 });
 
-// Export the model as the default ESM export
+
 export default mongoose.model("ProfileCollection", profileSchema);

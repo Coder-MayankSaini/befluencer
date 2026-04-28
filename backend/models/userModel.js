@@ -6,8 +6,8 @@ const userSchema = new mongoose.Schema({
   email: { type: String, unique: true, required: true },
   pwd: { type: String, required: true },
   phone: { type: String, required: true },
-  userType :{type:String,required:true}
+  userType: { type: String, required: true }
 });
 
-// Export the model as the default ESM export
+
 export default mongoose.model("UserCollection", userSchema);
