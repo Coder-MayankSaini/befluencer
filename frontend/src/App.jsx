@@ -4,7 +4,6 @@ import Layout from './layouts/Layout';
 import Home from './pages/Home';
 import BrandDashboard from './pages/BrandDashboard';
 import InfluencerDashboard from './pages/InfluencerDashboard';
-import InfluencerProfile from './pages/InfluencerProfile';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 
@@ -41,20 +40,6 @@ const ProtectedDashboard = ({ userType, children }) => {
   return children;
 };
 
-const ProtectedProfile = ({ children }) => {
-  const user = getLoggedInUser();
-
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (user.userType !== 'influencer') {
-    return <Navigate to="/" replace />;
-  }
-
-  return children;
-};
-
 function App() {
   return (
     <BrowserRouter>
@@ -75,14 +60,6 @@ function App() {
               <ProtectedDashboard userType="influencer">
                 <InfluencerDashboard />
               </ProtectedDashboard>
-            }
-          />
-          <Route
-            path="profile"
-            element={
-              <ProtectedProfile>
-                <InfluencerProfile />
-              </ProtectedProfile>
             }
           />
           <Route path="login" element={<Login />} />

@@ -19,7 +19,6 @@ const Navbar = () => {
 
     if (loggedInUser?.userType === 'influencer') {
         navLinks.push({ name: 'Dashboard', path: '/influencer' });
-            navLinks.push({ name: 'Profile', path: '/profile' });
     }
 
     const toggleMenu = () => setIsOpen(!isOpen);
