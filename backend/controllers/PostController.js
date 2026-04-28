@@ -4,8 +4,8 @@ import uploadFile from '../services/storage.services.js';
 async function createPost(req, res) {
     try {
         console.log("Create Post request received");
-        const { title, description } = req.body;
-        console.log("Body:", { title, description });
+        const { title, description, email } = req.body;
+        console.log("Body:", { title, description, email });
         
         // Ensure an image file was uploaded
         if (!req.file) {
@@ -21,6 +21,7 @@ async function createPost(req, res) {
         
         // Save post to MongoDB
         const newPost = new userPostModel({
+            email,
             title,
             description,
             image: imageKitResponse.url // URL provided by ImageKit
@@ -35,4 +36,19 @@ async function createPost(req, res) {
     }
 }
 
-export default { createPost };
+function fetchPosts(req,res){
+  // console.log(JSON.stringify(req.body));
+  
+    userPostModel.find({email:req.body.email})
+    .then((docu)=>{
+      if(docu!=null)
+        res.json({status:true,msg:"Record found",obj:docu});
+      else
+        res.json({status:false,msg:"Invalid Email or password "});
+    })
+    .catch((err)=>{
+      return res.json({status:false,msg:err.message});
+    });
+}
+
+export default { createPost ,fetchPosts};

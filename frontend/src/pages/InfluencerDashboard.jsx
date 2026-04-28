@@ -11,7 +11,38 @@ const InfluencerDashboard = () => {
     const [postMsg, setPostMsg] = useState('');
     const [postErr, setPostErr] = useState('');
     const [isPosting, setIsPosting] = useState(false);
+    const [email, setEmail] = useState('');
+    const [posts, setPosts] = useState([]);
 
+    const fetchPostsData = async () => {
+        if (!email) return;
+        try {
+            const resp = await axios.post('http://localhost:2001/influencer/fetch-post', { email });
+            if (resp?.data?.status) {
+                setPosts(resp?.data?.obj || []);
+            }
+        } catch (err) {
+            console.error("Failed to fetch posts:", err);
+        }
+    };
+
+    useEffect(() => {
+        if (email) {
+            fetchPostsData();
+        }
+    }, [email]);
+
+    useEffect(() => {
+        const userData = localStorage.getItem('loggedInUser');
+        if (userData) {
+            try {
+                const parsedData = JSON.parse(userData);
+                setEmail(parsedData.email || '');
+            } catch (err) {
+                console.error("Error parsing user data:", err);
+            }
+        }
+    }, []);
     useEffect(() => {
         if (!postImage) {
             setPostImagePreview('');
@@ -36,6 +67,7 @@ const InfluencerDashboard = () => {
         formData.append('title', postTitle);
         formData.append('description', postDescription);
         formData.append('image', postImage);
+        formData.append('email', email);
 
         try {
             setIsPosting(true);
@@ -50,6 +82,7 @@ const InfluencerDashboard = () => {
                 setPostImage(null);
                 setPostImageName('');
                 setPostImagePreview('');
+                fetchPostsData();
             } else {
                 setPostErr(resp?.data?.msg || 'Failed to create post.');
             }
@@ -176,6 +209,28 @@ const InfluencerDashboard = () => {
                             </button>
                         </div>
                     </form>
+                </section>
+
+                {/* Posts Section */}
+                <section className="relative overflow-hidden rounded-4xl border bg-slate-50 border-slate-200 backdrop-blur-2xl p-6 sm:p-8">
+                    <h2 className="text-2xl font-bold mb-6 flex items-center gap-2"><Sparkles className="h-6 w-6 text-slate-700" /> Your Posts</h2>
+                    {posts.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {posts.map((post, index) => (
+                                <div key={index} className="bg-white rounded-[1.75rem] border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition">
+                                    {post.image && <img src={post.image} alt={post.title} className="w-full h-48 object-cover" />}
+                                    <div className="p-5">
+                                        <h3 className="font-bold text-lg text-slate-900 mb-2 truncate">{post.title}</h3>
+                                        <p className="text-slate-600 text-sm line-clamp-3">{post.description}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-10 bg-white rounded-[1.75rem] border border-slate-200">
+                            <p className="text-slate-500">No posts yet. Create your first post above!</p>
+                        </div>
+                    )}
                 </section>
             </div>
         </div>
