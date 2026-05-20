@@ -263,37 +263,37 @@ const InfluencerDashboard = () => {
                         </div>
 
                         {/* Profile Picture Section */}
-                        <div className="flex flex-col items-center gap-3">
-                            <div className="h-28 w-28 rounded-full overflow-hidden border-4 border-white shadow-lg bg-slate-200 flex items-center justify-center relative object-cover">
+                        <div className="group relative">
+                            <label htmlFor="profile-pic-upload" className="h-28 w-28 rounded-full overflow-hidden border-4 border-white shadow-lg bg-slate-200 flex items-center justify-center relative object-cover cursor-pointer block">
                                 {profilePicUrl ? (
                                     <img src={profilePicUrl} alt="Profile" className="w-full h-full object-cover" />
                                 ) : (
                                     <Camera className="w-8 h-8 text-slate-400" />
                                 )}
 
+                                {/* Hover Overlay */}
+                                <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                    <span className="text-white text-xs font-semibold flex flex-col items-center gap-1">
+                                        <Camera className="w-4 h-4" />
+                                        Update
+                                    </span>
+                                </div>
+
                                 {isUploadingPic && (
-                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
                                         <span className="text-white text-xs font-medium">Uploading...</span>
                                     </div>
                                 )}
-                            </div>
+                            </label>
 
-                            <div>
-                                <label
-                                    htmlFor="profile-pic-upload"
-                                    className={`cursor-pointer text-sm font-semibold text-slate-700 bg-white border border-slate-200 px-4 py-2 rounded-full hover:bg-slate-50 transition shadow-sm ${isUploadingPic ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                >
-                                    {isUploadingPic ? 'Updating...' : 'Update Picture'}
-                                </label>
-                                <input
-                                    id="profile-pic-upload"
-                                    type="file"
-                                    accept="image/*"
-                                    className="sr-only"
-                                    onChange={uploadProfilePicture}
-                                    disabled={isUploadingPic}
-                                />
-                            </div>
+                            <input
+                                id="profile-pic-upload"
+                                type="file"
+                                accept="image/*"
+                                className="sr-only"
+                                onChange={uploadProfilePicture}
+                                disabled={isUploadingPic}
+                            />
                         </div>
                     </div>
                 </section>
