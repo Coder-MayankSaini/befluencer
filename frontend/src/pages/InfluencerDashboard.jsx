@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Camera, Plus, Sparkles } from 'lucide-react';
+import { Camera, Plus, Sparkles, Settings, LogOut, User, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const InfluencerDashboard = () => {
+    const navigate = useNavigate();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    const handleLogout = () => {
+        localStorage.removeItem('loggedInUser');
+        navigate('/login');
+    };
+
     const [postTitle, setPostTitle] = useState('');
     const [postDescription, setPostDescription] = useState('');
     const [postImage, setPostImage] = useState(null);
@@ -22,6 +32,7 @@ const InfluencerDashboard = () => {
     const [profileBio, setProfileBio] = useState('');
     const [isSavingProfile, setIsSavingProfile] = useState(false);
     const [profileStatusMsg, setProfileStatusMsg] = useState('');
+    const [isEditingProfile, setIsEditingProfile] = useState(false);
 
     // Profile Picture States
     const [profilePicUrl, setProfilePicUrl] = useState('');
@@ -203,6 +214,7 @@ const InfluencerDashboard = () => {
             const resp = await axios.post('http://localhost:2001/user/saveProfile', data);
             if (resp.data.status) {
                 setProfileStatusMsg('Profile saved successfully!');
+                setTimeout(() => setIsEditingProfile(false), 1000);
             } else {
                 setProfileStatusMsg(resp.data.msg || 'Failed to save profile.');
             }
@@ -218,6 +230,23 @@ const InfluencerDashboard = () => {
         <div className="bg-white text-slate-900 min-h-screen">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
                 <section className="relative overflow-hidden rounded-4xl border bg-slate-50 border-slate-200 backdrop-blur-2xl p-6 sm:p-8">
+                    {/* Settings Dropdown */}
+                    <div className="absolute top-6 right-6 z-50">
+                        <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="p-2 bg-white rounded-full shadow-sm hover:bg-gray-50 border border-slate-200 transition">
+                            <Settings className="w-6 h-6 text-slate-700" />
+                        </button>
+                        {isDropdownOpen && (
+                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-lg border border-slate-100 py-2">
+                                <button onClick={() => { setIsSidebarOpen(true); setIsDropdownOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center gap-2 text-sm font-medium text-slate-700 transition">
+                                    <User size={16} /> Profile
+                                </button>
+                                <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center gap-2 text-sm font-medium text-red-600 transition">
+                                    <LogOut size={16} /> Logout
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                    
                     <div className="relative z-10 flex flex-col xl:flex-row xl:items-end xl:justify-between gap-6">
                         <div className="space-y-4 max-w-3xl">
                             <div className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] bg-slate-100 border-slate-200 text-slate-800">
@@ -269,48 +298,7 @@ const InfluencerDashboard = () => {
                     </div>
                 </section>
 
-                {/* Profile Details Section */}
-                <section className="rounded-4xl border p-6 bg-white border-slate-200 shadow-sm">
-                    <div className="flex items-start justify-between gap-4 mb-6">
-                        <div>
-                            <h2 className="text-2xl font-black text-slate-900">Profile Configuration</h2>
-                            <p className="mt-1 text-sm text-slate-500">Brands will see these details on your public portfolio.</p>
-                        </div>
-                    </div>
-
-                    <form className="grid gap-5 lg:grid-cols-2" onSubmit={saveInfluencerProfile}>
-                        {profileStatusMsg && (
-                            <div className="lg:col-span-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
-                                {profileStatusMsg}
-                            </div>
-                        )}
-                        <div>
-                            <label className="block text-sm font-medium text-slate-500 mb-2">Display Name</label>
-                            <input type="text" required value={profileName} onChange={(e) => setProfileName(e.target.value)} placeholder="Your Brand/Creator Name" className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition bg-white border-slate-200 text-slate-900 focus:border-slate-900" />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-slate-500 mb-2">Your Niche</label>
-                            <input type="text" required value={profileNiche} onChange={(e) => setProfileNiche(e.target.value)} placeholder="e.g. Tech, Fashion, Food" className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition bg-white border-slate-200 text-slate-900 focus:border-slate-900" />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-slate-500 mb-2">Location</label>
-                            <input type="text" required value={profileLocation} onChange={(e) => setProfileLocation(e.target.value)} placeholder="e.g. New York, Online" className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition bg-white border-slate-200 text-slate-900 focus:border-slate-900" />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-slate-500 mb-2">Starting Rate</label>
-                            <input type="text" required value={profileRate} onChange={(e) => setProfileRate(e.target.value)} placeholder="e.g. $150 / Post" className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition bg-white border-slate-200 text-slate-900 focus:border-slate-900" />
-                        </div>
-                        <div className="lg:col-span-2">
-                            <label className="block text-sm font-medium text-slate-500 mb-2">Profile Bio</label>
-                            <textarea rows="3" required value={profileBio} onChange={(e) => setProfileBio(e.target.value)} placeholder="A short description about your content..." className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition bg-white border-slate-200 text-slate-900 focus:border-slate-900"></textarea>
-                        </div>
-                        <div className="lg:col-span-2 flex justify-end">
-                            <button type="submit" disabled={isSavingProfile} className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-6 py-3 font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed">
-                                {isSavingProfile ? 'Saving Profile...' : 'Save Profile Changes'}
-                            </button>
-                        </div>
-                    </form>
-                </section>
+                {/* Profile Details moved to sidebar */}
 
                 <section className="rounded-4xl border p-6 bg-white border-slate-200 shadow-sm">
                     <div className="flex items-start justify-between gap-4 mb-6">
@@ -431,6 +419,93 @@ const InfluencerDashboard = () => {
                     )}
                 </section>
             </div>
+
+            {/* Sidebar Modal for Profile Configuration */}
+            {isSidebarOpen && (
+                <div className="fixed inset-0 z-[100] flex justify-end">
+                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsSidebarOpen(false)}></div>
+                    <div className="relative w-full max-w-md bg-white h-full shadow-2xl p-6 sm:p-8 overflow-y-auto transform transition-transform duration-300 translate-x-0 border-l border-slate-200">
+                        <div className="flex items-center justify-between mb-8">
+                            <div>
+                                <h2 className="text-2xl font-black text-slate-900">Profile Settings</h2>
+                                <p className="text-sm text-slate-500 mt-1">
+                                    {isEditingProfile ? 'Update your brand information.' : 'Your current brand profile.'}
+                                </p>
+                            </div>
+                            <button onClick={() => setIsSidebarOpen(false)} className="p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 transition">
+                                <X size={20}/>
+                            </button>
+                        </div>
+
+                        {profileStatusMsg && (
+                            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 mb-5">
+                                {profileStatusMsg}
+                            </div>
+                        )}
+
+                        {!isEditingProfile ? (
+                            <div className="flex flex-col gap-6">
+                                <div>
+                                    <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Display Name</h3>
+                                    <p className="text-slate-900 font-medium text-lg">{profileName || 'Not Set'}</p>
+                                </div>
+                                <div>
+                                    <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Your Niche</h3>
+                                    <p className="text-slate-900 font-medium text-lg">{profileNiche || 'Not Set'}</p>
+                                </div>
+                                <div>
+                                    <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Location</h3>
+                                    <p className="text-slate-900 font-medium text-lg">{profileLocation || 'Not Set'}</p>
+                                </div>
+                                <div>
+                                    <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Starting Rate</h3>
+                                    <p className="text-slate-900 font-medium text-lg">{profileRate || 'Not Set'}</p>
+                                </div>
+                                <div>
+                                    <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Profile Bio</h3>
+                                    <p className="text-slate-900 font-medium text-base whitespace-pre-wrap">{profileBio || 'No bio provided.'}</p>
+                                </div>
+                                <div className="pt-4 flex justify-end">
+                                    <button onClick={() => setIsEditingProfile(true)} className="w-full inline-flex justify-center items-center gap-2 rounded-2xl bg-slate-900 px-6 py-3.5 font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-slate-800">
+                                        Edit Profile
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <form className="flex flex-col gap-5" onSubmit={saveInfluencerProfile}>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-500 mb-2">Display Name</label>
+                                    <input type="text" required value={profileName} onChange={(e) => setProfileName(e.target.value)} placeholder="Your Brand/Creator Name" className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition bg-white border-slate-200 text-slate-900 focus:border-slate-900" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-500 mb-2">Your Niche</label>
+                                    <input type="text" required value={profileNiche} onChange={(e) => setProfileNiche(e.target.value)} placeholder="e.g. Tech, Fashion, Food" className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition bg-white border-slate-200 text-slate-900 focus:border-slate-900" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-500 mb-2">Location</label>
+                                    <input type="text" required value={profileLocation} onChange={(e) => setProfileLocation(e.target.value)} placeholder="e.g. New York, Online" className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition bg-white border-slate-200 text-slate-900 focus:border-slate-900" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-500 mb-2">Starting Rate</label>
+                                    <input type="text" required value={profileRate} onChange={(e) => setProfileRate(e.target.value)} placeholder="e.g. $150 / Post" className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition bg-white border-slate-200 text-slate-900 focus:border-slate-900" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-500 mb-2">Profile Bio</label>
+                                    <textarea rows="4" required value={profileBio} onChange={(e) => setProfileBio(e.target.value)} placeholder="A short description about your content..." className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition bg-white border-slate-200 text-slate-900 focus:border-slate-900"></textarea>
+                                </div>
+                                <div className="pt-4 flex gap-3">
+                                    <button type="button" onClick={() => setIsEditingProfile(false)} className="w-1/3 inline-flex justify-center items-center rounded-2xl bg-slate-100 border border-slate-200 px-4 py-3.5 font-semibold text-slate-700 transition hover:bg-slate-200">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" disabled={isSavingProfile} className="w-2/3 inline-flex justify-center items-center gap-2 rounded-2xl bg-slate-900 px-6 py-3.5 font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed">
+                                        {isSavingProfile ? 'Saving...' : 'Save Changes'}
+                                    </button>
+                                </div>
+                            </form>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

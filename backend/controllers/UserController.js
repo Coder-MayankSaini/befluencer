@@ -22,7 +22,7 @@ async function saveUser(req, res) {
 }
 
 function checkUser(req, res) {
-  // console.log(JSON.stringify(req.body));
+  console.log(JSON.stringify(req.body));
 
   userModel.findOne({ email: req.body.email, pwd: req.body.pwd })
     .then((docu) => {
